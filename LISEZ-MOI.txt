@@ -1,0 +1,2 @@
+Déposez ici les photos de vos biens (JPEG, 1600 px de large maximum, moins de 400 Ko chacune).
+Indiquez ensuite leur chemin dans config.js, par exemple : photos: ['photos/bien-1-salon.jpg']

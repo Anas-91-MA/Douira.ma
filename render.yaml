@@ -1,0 +1,42 @@
+# Render (render.com) : site statique gratuit, créé avec New > Blueprint à partir du dépôt GitHub.
+# Render ne lit ni _headers ni .htaccess : les en-têtes de sécurité sont repris ci-dessous.
+# Seuls les fichiers du site sont publiés (dossier public/ créé au déploiement), pas ce fichier ni le guide.
+# Fichier régénéré par build/build.py : ne pas le modifier à la main (il contient l'empreinte des scripts).
+services:
+  - type: web
+    runtime: static
+    name: douira
+    buildCommand: "rm -rf public && mkdir public && cp index.html config.js 404.html robots.txt manifest.webmanifest favicon.svg icon-192.png icon-512.png apple-touch-icon.png og-image.png public/ && if [ -f sitemap.xml ]; then cp sitemap.xml public/; fi && if [ -d photos ]; then cp -R photos public/ && rm -f public/photos/LISEZ-MOI.txt; fi"
+    staticPublishPath: ./public
+    autoDeployTrigger: commit
+    headers:
+      - path: "/*"
+        name: "Content-Security-Policy"
+        value: "default-src 'self'; script-src 'self' 'sha256-u8D2bwiB6sDgnXl/w9CLTJGiSF5qoUa315P+rbpBnfg=' 'sha256-PHKfCWDAozfv7de5KuQ+63lSGt4DxFnLULRRLDvHQ8o='; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: blob:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'none'"
+      - path: "/*"
+        name: "X-Content-Type-Options"
+        value: "nosniff"
+      - path: "/*"
+        name: "Referrer-Policy"
+        value: "strict-origin-when-cross-origin"
+      - path: "/*"
+        name: "Permissions-Policy"
+        value: "camera=(), microphone=(), geolocation=(), payment=()"
+      - path: "/*"
+        name: "X-Frame-Options"
+        value: "DENY"
+      - path: "/*"
+        name: "Strict-Transport-Security"
+        value: "max-age=31536000"
+      - path: "/"
+        name: "Cache-Control"
+        value: "no-cache"
+      - path: "/index.html"
+        name: "Cache-Control"
+        value: "no-cache"
+      - path: "/config.js"
+        name: "Cache-Control"
+        value: "no-cache"
+      - path: "/photos/*"
+        name: "Cache-Control"
+        value: "public, max-age=604800"
